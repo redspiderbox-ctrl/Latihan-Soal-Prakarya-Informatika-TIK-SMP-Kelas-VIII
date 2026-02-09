@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latihan Prakarya / Informatika / TIK SMP Kelas VIII</title>
+  <style>
+    :root {
+      --primary-color: #1b5e20;
+      --primary-light: #4c8c4a;
+      --primary-dark: #003300;
+      --accent-color: #ffc107;
+      --bg-color: #f1f8e9;
+      --card-bg: #ffffff;
+      --wa-color: #25D366;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* --- HEADER & LOGO --- */
+    .header {
+      display: flex; align-items: center; gap: 20px; padding: 20px 5%;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-color)); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Logo Container dengan Background Putih */
+    .logo-box {
+      background-color: #ffffff;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .logo-box img { width: 100%; height: auto; object-fit: contain; }
+
+    .header .title h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+    .header .title p { margin: 5px 0 0; font-size: 14px; opacity: 0.9; }
+
+    .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+
+    .student-info {
+      background: var(--card-bg); padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      margin-bottom: 25px; text-align: center; border-left: 5px solid var(--accent-color);
+    }
+    .student-info h1 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 22px; }
+
+    /* --- SOAL --- */
+    .question-card {
+      background: var(--card-bg); margin-bottom: 15px; padding: 20px; border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee;
+    }
+    .question-text { font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+    .options-grid { display: grid; gap: 10px; }
+
+    .option-label {
+      display: flex; align-items: center; padding: 10px 15px; border: 1px solid #ddd;
+      border-radius: 8px; cursor: pointer; transition: 0.2s;
+    }
+    .option-label:hover { background: #f9f9f9; border-color: var(--primary-light); }
+    
+    .option-label input[type="radio"] {
+      appearance: none; width: 18px; height: 18px; border: 2px solid #aaa; border-radius: 50%;
+      margin-right: 12px; outline: none; position: relative;
+    }
+    .option-label input[type="radio"]:checked { border-color: var(--primary-color); }
+    .option-label input[type="radio"]:checked::after {
+      content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 8px; height: 8px; background: var(--primary-color); border-radius: 50%;
+    }
+
+    /* Feedback Colors */
+    .option-label.correct { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724; }
+    .option-label.wrong { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+    .option-label.dimmed { opacity: 0.5; }
+
+    /* --- BUTTONS --- */
+    .action-buttons { display: flex; justify-content: center; gap: 15px; margin: 40px 0; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 30px; font-size: 16px; font-weight: bold; border: none; border-radius: 30px;
+      cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--primary-color); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    
+    .btn-whatsapp { 
+      background: var(--wa-color); 
+      color: white; 
+      display: none; 
+    }
+    .btn-whatsapp:hover { background: #1ebe57; transform: translateY(-2px); }
+
+    .btn-reset { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); display: none; }
+    .btn-reset:hover { background: #f1f8e9; }
+
+    /* Result Section di Web */
+    #result-section {
+      display: none; text-align: center; margin-top: 30px; padding: 30px; 
+      background: white; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-top: 6px solid var(--accent-color);
+    }
+    .score-display { font-size: 48px; font-weight: 800; color: var(--primary-color); margin: 10px 0; }
+    .grade-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; color: white; font-size: 14px; margin-bottom: 10px; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-box">
+      <img src="https://z-cdn-media.chatglm.cn/files/56e90a19-085a-42bd-b085-dc0377e4104a.png?auth_key=1870629051-f1a20879f4e24714b010d99fedb74bbe-0-52bc6c2bfa5d1611e30f06b91dbf46d3" alt="Logo Sekolah">
+    </div>
+    <div class="title">
+      <h2>SMPK Frateran Ndao-Ende</h2>
+      <p>Latihan Soal Prakarya / Informatika / TIK Kelas VIII</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="student-info">
+      <h1>Latihan Soal Prakarya / Informatika / TIK</h1>
+      <p>Nama: <strong>Lambertus Adam Lowo Ngole</strong> | Kelas: <strong>VIII</strong></p>
+    </div>
+
+    <form id="quiz">
+      <!-- SOAL 1-10 -->
+      <div class="question-card" id="q1">
+        <div class="question-text">1. Alat utama untuk mengoperasikan komputer disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q1" value="A"> Software</label>
+          <label class="option-label"><input type="radio" name="q1" value="B"> Brainware</label>
+          <label class="option-label"><input type="radio" name="q1" value="C"> Hardware</label>
+          <label class="option-label"><input type="radio" name="q1" value="D"> Internet</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q2">
+        <div class="question-text">2. Perangkat keras komputer yang berfungsi menampilkan gambar adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q2" value="A"> Keyboard</label>
+          <label class="option-label"><input type="radio" name="q2" value="B"> Monitor</label>
+          <label class="option-label"><input type="radio" name="q2" value="C"> CPU</label>
+          <label class="option-label"><input type="radio" name="q2" value="D"> Printer</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q3">
+        <div class="question-text">3. Contoh perangkat lunak sistem adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q3" value="A"> Microsoft Word</label>
+          <label class="option-label"><input type="radio" name="q3" value="B"> Windows</label>
+          <label class="option-label"><input type="radio" name="q3" value="C"> CorelDraw</label>
+          <label class="option-label"><input type="radio" name="q3" value="D"> Photoshop</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q4">
+        <div class="question-text">4. Perangkat yang digunakan untuk memasukkan data ke komputer adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q4" value="A"> Output device</label>
+          <label class="option-label"><input type="radio" name="q4" value="B"> Input device</label>
+          <label class="option-label"><input type="radio" name="q4" value="C"> Storage</label>
+          <label class="option-label"><input type="radio" name="q4" value="D"> Processor</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q5">
+        <div class="question-text">5. Contoh input device adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q5" value="A"> Monitor</label>
+          <label class="option-label"><input type="radio" name="q5" value="B"> Printer</label>
+          <label class="option-label"><input type="radio" name="q5" value="C"> Keyboard</label>
+          <label class="option-label"><input type="radio" name="q5" value="D"> Speaker</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q6">
+        <div class="question-text">6. Alat untuk mencetak dokumen disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q6" value="A"> Scanner</label>
+          <label class="option-label"><input type="radio" name="q6" value="B"> Monitor</label>
+          <label class="option-label"><input type="radio" name="q6" value="C"> Printer</label>
+          <label class="option-label"><input type="radio" name="q6" value="D"> Proyektor</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q7">
+        <div class="question-text">7. Program Microsoft Word digunakan untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q7" value="A"> Mengolah angka</label>
+          <label class="option-label"><input type="radio" name="q7" value="B"> Mengolah gambar</label>
+          <label class="option-label"><input type="radio" name="q7" value="C"> Mengolah kata</label>
+          <label class="option-label"><input type="radio" name="q7" value="D"> Mengolah video</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q8">
+        <div class="question-text">8. Program pengolah angka adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q8" value="A"> Microsoft Excel</label>
+          <label class="option-label"><input type="radio" name="q8" value="B"> Microsoft Word</label>
+          <label class="option-label"><input type="radio" name="q8" value="C"> Paint</label>
+          <label class="option-label"><input type="radio" name="q8" value="D"> Notepad</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q9">
+        <div class="question-text">9. Internet merupakan jaringan …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q9" value="A"> Lokal</label>
+          <label class="option-label"><input type="radio" name="q9" value="B"> Nasional</label>
+          <label class="option-label"><input type="radio" name="q9" value="C"> Global</label>
+          <label class="option-label"><input type="radio" name="q9" value="D"> Sekolah</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q10">
+        <div class="question-text">10. Contoh layanan internet adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q10" value="A"> CPU</label>
+          <label class="option-label"><input type="radio" name="q10" value="B"> Email</label>
+          <label class="option-label"><input type="radio" name="q10" value="C"> Keyboard</label>
+          <label class="option-label"><input type="radio" name="q10" value="D"> Flashdisk</label>
+        </div>
+      </div>
+
+      <!-- SOAL 11-50 (Dikonversi dari Loop menjadi Statis) -->
+      <div class="question-card" id="q11">
+        <div class="question-text">11. Alat penyimpan data portabel adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q11" value="A"> Harddisk</label>
+          <label class="option-label"><input type="radio" name="q11" value="B"> Flashdisk</label>
+          <label class="option-label"><input type="radio" name="q11" value="C"> RAM</label>
+          <label class="option-label"><input type="radio" name="q11" value="D"> CD</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q12">
+        <div class="question-text">12. Fungsi utama CPU adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q12" value="A"> Mengolah data</label>
+          <label class="option-label"><input type="radio" name="q12" value="B"> Menyimpan data</label>
+          <label class="option-label"><input type="radio" name="q12" value="C"> Menampilkan data</label>
+          <label class="option-label"><input type="radio" name="q12" value="D"> Mencetak data</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q13">
+        <div class="question-text">13. Mouse berfungsi untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q13" value="A"> Mengetik</label>
+          <label class="option-label"><input type="radio" name="q13" value="B"> Menunjuk perintah</label>
+          <label class="option-label"><input type="radio" name="q13" value="C"> Mencetak</label>
+          <label class="option-label"><input type="radio" name="q13" value="D"> Menyimpan</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q14">
+        <div class="question-text">14. Ikon Save biasanya bergambar …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q14" value="A"> Disket</label>
+          <label class="option-label"><input type="radio" name="q14" value="B"> Printer</label>
+          <label class="option-label"><input type="radio" name="q14" value="C"> Folder</label>
+          <label class="option-label"><input type="radio" name="q14" value="D"> Kaca</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q15">
+        <div class="question-text">15. Program untuk mengolah presentasi adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q15" value="A"> PowerPoint</label>
+          <label class="option-label"><input type="radio" name="q15" value="B"> Word</label>
+          <label class="option-label"><input type="radio" name="q15" value="C"> Excel</label>
+          <label class="option-label"><input type="radio" name="q15" value="D"> Paint</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q16">
+        <div class="question-text">16. Perangkat keras yang menghasilkan suara adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q16" value="A"> Speaker</label>
+          <label class="option-label"><input type="radio" name="q16" value="B"> Keyboard</label>
+          <label class="option-label"><input type="radio" name="q16" value="C"> Mouse</label>
+          <label class="option-label"><input type="radio" name="q16" value="D"> Scanner</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q17">
+        <div class="question-text">17. Website diakses menggunakan …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q17" value="A"> Browser</label>
+          <label class="option-label"><input type="radio" name="q17" value="B"> CPU</label>
+          <label class="option-label"><input type="radio" name="q17" value="C"> Monitor</label>
+          <label class="option-label"><input type="radio" name="q17" value="D"> RAM</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q18">
+        <div class="question-text">18. Alamat website disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q18" value="A"> URL</label>
+          <label class="option-label"><input type="radio" name="q18" value="B"> WWW</label>
+          <label class="option-label"><input type="radio" name="q18" value="C"> HTTP</label>
+          <label class="option-label"><input type="radio" name="q18" value="D"> IP</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q19">
+        <div class="question-text">19. Contoh mesin pencari adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q19" value="A"> Google</label>
+          <label class="option-label"><input type="radio" name="q19" value="B"> Email</label>
+          <label class="option-label"><input type="radio" name="q19" value="C"> Browser</label>
+          <label class="option-label"><input type="radio" name="q19" value="D"> Website</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q20">
+        <div class="question-text">20. Etika menggunakan internet disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q20" value="A"> Netiket</label>
+          <label class="option-label"><input type="radio" name="q20" value="B"> Browsing</label>
+          <label class="option-label"><input type="radio" name="q20" value="C"> Chatting</label>
+          <label class="option-label"><input type="radio" name="q20" value="D"> Downloading</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q21">
+        <div class="question-text">21. Software untuk menggambar adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q21" value="A"> Paint</label>
+          <label class="option-label"><input type="radio" name="q21" value="B"> Word</label>
+          <label class="option-label"><input type="radio" name="q21" value="C"> Excel</label>
+          <label class="option-label"><input type="radio" name="q21" value="D"> Access</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q22">
+        <div class="question-text">22. Shortcut Ctrl + C berfungsi untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q22" value="A"> Menyalin</label>
+          <label class="option-label"><input type="radio" name="q22" value="B"> Menempel</label>
+          <label class="option-label"><input type="radio" name="q22" value="C"> Menghapus</label>
+          <label class="option-label"><input type="radio" name="q22" value="D"> Menyimpan</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q23">
+        <div class="question-text">23. Shortcut Ctrl + V berfungsi untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q23" value="A"> Menyalin</label>
+          <label class="option-label"><input type="radio" name="q23" value="B"> Menempel</label>
+          <label class="option-label"><input type="radio" name="q23" value="C"> Memotong</label>
+          <label class="option-label"><input type="radio" name="q23" value="D"> Menyimpan</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q24">
+        <div class="question-text">24. Folder digunakan untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q24" value="A"> Menyimpan file</label>
+          <label class="option-label"><input type="radio" name="q24" value="B"> Menghapus file</label>
+          <label class="option-label"><input type="radio" name="q24" value="C"> Mencetak file</label>
+          <label class="option-label"><input type="radio" name="q24" value="D"> Menyalin file</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q25">
+        <div class="question-text">25. Virus komputer dapat menyebabkan …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q25" value="A"> Mempercepat</label>
+          <label class="option-label"><input type="radio" name="q25" value="B"> Merusak</label>
+          <label class="option-label"><input type="radio" name="q25" value="C"> Memperindah</label>
+          <label class="option-label"><input type="radio" name="q25" value="D"> Mengamankan</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q26">
+        <div class="question-text">26. Contoh media sosial adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q26" value="A"> Facebook</label>
+          <label class="option-label"><input type="radio" name="q26" value="B"> CPU</label>
+          <label class="option-label"><input type="radio" name="q26" value="C"> Flashdisk</label>
+          <label class="option-label"><input type="radio" name="q26" value="D"> Monitor</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q27">
+        <div class="question-text">27. Program antivirus berfungsi untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q27" value="A"> Menghapus virus</label>
+          <label class="option-label"><input type="radio" name="q27" value="B"> Membuat virus</label>
+          <label class="option-label"><input type="radio" name="q27" value="C"> Mempercepat internet</label>
+          <label class="option-label"><input type="radio" name="q27" value="D"> Mengedit gambar</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q28">
+        <div class="question-text">28. Komputer laptop bersifat …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q28" value="A"> Mudah dibawa</label>
+          <label class="option-label"><input type="radio" name="q28" value="B"> Berat</label>
+          <label class="option-label"><input type="radio" name="q28" value="C"> Besar</label>
+          <label class="option-label"><input type="radio" name="q28" value="D"> Statis</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q29">
+        <div class="question-text">29. Perangkat keras untuk memindai gambar disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q29" value="A"> Printer</label>
+          <label class="option-label"><input type="radio" name="q29" value="B"> Scanner</label>
+          <label class="option-label"><input type="radio" name="q29" value="C"> Monitor</label>
+          <label class="option-label"><input type="radio" name="q29" value="D"> Speaker</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q30">
+        <div class="question-text">30. File dengan ekstensi .docx dibuat dengan …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q30" value="A"> Microsoft Word</label>
+          <label class="option-label"><input type="radio" name="q30" value="B"> Paint</label>
+          <label class="option-label"><input type="radio" name="q30" value="C"> Excel</label>
+          <label class="option-label"><input type="radio" name="q30" value="D"> PowerPoint</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q31">
+        <div class="question-text">31. Kegiatan membuat produk kerajinan disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q31" value="A"> Produksi</label>
+          <label class="option-label"><input type="radio" name="q31" value="B"> Konsumsi</label>
+          <label class="option-label"><input type="radio" name="q31" value="C"> Distribusi</label>
+          <label class="option-label"><input type="radio" name="q31" value="D"> Promosi</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q32">
+        <div class="question-text">32. Bahan kerajinan yang berasal dari alam disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q32" value="A"> Bahan alami</label>
+          <label class="option-label"><input type="radio" name="q32" value="B"> Bahan sintetis</label>
+          <label class="option-label"><input type="radio" name="q32" value="C"> Plastik</label>
+          <label class="option-label"><input type="radio" name="q32" value="D"> Logam</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q33">
+        <div class="question-text">33. Contoh bahan lunak alami adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q33" value="A"> Tanah liat</label>
+          <label class="option-label"><input type="radio" name="q33" value="B"> Besi</label>
+          <label class="option-label"><input type="radio" name="q33" value="C"> Kaca</label>
+          <label class="option-label"><input type="radio" name="q33" value="D"> Plastik</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q34">
+        <div class="question-text">34. Alat pemotong dalam prakarya adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q34" value="A"> Gunting</label>
+          <label class="option-label"><input type="radio" name="q34" value="B"> Lem</label>
+          <label class="option-label"><input type="radio" name="q34" value="C"> Cat</label>
+          <label class="option-label"><input type="radio" name="q34" value="D"> Paku</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q35">
+        <div class="question-text">35. Tahap awal pembuatan produk adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q35" value="A"> Perencanaan</label>
+          <label class="option-label"><input type="radio" name="q35" value="B"> Produksi</label>
+          <label class="option-label"><input type="radio" name="q35" value="C"> Promosi</label>
+          <label class="option-label"><input type="radio" name="q35" value="D"> Evaluasi</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q36">
+        <div class="question-text">36. Desain produk berfungsi untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q36" value="A"> Memperindah</label>
+          <label class="option-label"><input type="radio" name="q36" value="B"> Panduan pembuatan</label>
+          <label class="option-label"><input type="radio" name="q36" value="C"> Promosi</label>
+          <label class="option-label"><input type="radio" name="q36" value="D"> Penilaian</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q37">
+        <div class="question-text">37. Produk kerajinan harus memiliki nilai …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q37" value="A"> Estetika</label>
+          <label class="option-label"><input type="radio" name="q37" value="B"> Rendah</label>
+          <label class="option-label"><input type="radio" name="q37" value="C"> Murah</label>
+          <label class="option-label"><input type="radio" name="q37" value="D"> Biasa</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q38">
+        <div class="question-text">38. Contoh kerajinan dari limbah adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q38" value="A"> Kerajinan plastik</label>
+          <label class="option-label"><input type="radio" name="q38" value="B"> Kerajinan kayu</label>
+          <label class="option-label"><input type="radio" name="q38" value="C"> Kerajinan batu</label>
+          <label class="option-label"><input type="radio" name="q38" value="D"> Kerajinan emas</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q39">
+        <div class="question-text">39. Kegiatan promosi bertujuan untuk …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q39" value="A"> Menjual produk</label>
+          <label class="option-label"><input type="radio" name="q39" value="B"> Membeli produk</label>
+          <label class="option-label"><input type="radio" name="q39" value="C"> Menyimpan produk</label>
+          <label class="option-label"><input type="radio" name="q39" value="D"> Membuang produk</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q40">
+        <div class="question-text">40. Kewirausahaan menekankan pada sikap …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q40" value="A"> Kreatif</label>
+          <label class="option-label"><input type="radio" name="q40" value="B"> Malas</label>
+          <label class="option-label"><input type="radio" name="q40" value="C"> Pasif</label>
+          <label class="option-label"><input type="radio" name="q40" value="D"> Takut</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q41">
+        <div class="question-text">41. Keyboard termasuk perangkat …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q41" value="A"> Input</label>
+          <label class="option-label"><input type="radio" name="q41" value="B"> Output</label>
+          <label class="option-label"><input type="radio" name="q41" value="C"> Proses</label>
+          <label class="option-label"><input type="radio" name="q41" value="D"> Penyimpanan</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q42">
+        <div class="question-text">42. Monitor termasuk perangkat …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q42" value="A"> Output</label>
+          <label class="option-label"><input type="radio" name="q42" value="B"> Input</label>
+          <label class="option-label"><input type="radio" name="q42" value="C"> Proses</label>
+          <label class="option-label"><input type="radio" name="q42" value="D"> Jaringan</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q43">
+        <div class="question-text">43. Harddisk berfungsi sebagai …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q43" value="A"> Penyimpanan data</label>
+          <label class="option-label"><input type="radio" name="q43" value="B"> Input data</label>
+          <label class="option-label"><input type="radio" name="q43" value="C"> Output data</label>
+          <label class="option-label"><input type="radio" name="q43" value="D"> Proses data</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q44">
+        <div class="question-text">44. Perangkat lunak berbayar disebut …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q44" value="A"> Freeware</label>
+          <label class="option-label"><input type="radio" name="q44" value="B"> Shareware</label>
+          <label class="option-label"><input type="radio" name="q44" value="C"> Komersial</label>
+          <label class="option-label"><input type="radio" name="q44" value="D"> Open source</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q45">
+        <div class="question-text">45. Contoh sistem operasi selain Windows adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q45" value="A"> Linux</label>
+          <label class="option-label"><input type="radio" name="q45" value="B"> Word</label>
+          <label class="option-label"><input type="radio" name="q45" value="C"> Excel</label>
+          <label class="option-label"><input type="radio" name="q45" value="D"> Paint</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q46">
+        <div class="question-text">46. Internet yang aman memerlukan sikap …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q46" value="A"> Bertanggung jawab</label>
+          <label class="option-label"><input type="radio" name="q46" value="B"> Sembarangan</label>
+          <label class="option-label"><input type="radio" name="q46" value="C"> Bebas</label>
+          <label class="option-label"><input type="radio" name="q46" value="D"> Acuh</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q47">
+        <div class="question-text">47. Data pribadi sebaiknya …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q47" value="A"> Dibagikan</label>
+          <label class="option-label"><input type="radio" name="q47" value="B"> Dirahasiakan</label>
+          <label class="option-label"><input type="radio" name="q47" value="C"> Dijual</label>
+          <label class="option-label"><input type="radio" name="q47" value="D"> Dipublikasikan</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q48">
+        <div class="question-text">48. Fungsi ikon Print adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q48" value="A"> Mencetak dokumen</label>
+          <label class="option-label"><input type="radio" name="q48" value="B"> Menyimpan</label>
+          <label class="option-label"><input type="radio" name="q48" value="C"> Menghapus</label>
+          <label class="option-label"><input type="radio" name="q48" value="D"> Menyalin</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q49">
+        <div class="question-text">49. Contoh perangkat output adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q49" value="A"> Printer</label>
+          <label class="option-label"><input type="radio" name="q49" value="B"> Keyboard</label>
+          <label class="option-label"><input type="radio" name="q49" value="C"> Mouse</label>
+          <label class="option-label"><input type="radio" name="q49" value="D"> Scanner</label>
+        </div>
+      </div>
+
+      <div class="question-card" id="q50">
+        <div class="question-text">50. Tujuan mempelajari TIK adalah …</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q50" value="A"> Menambah wawasan teknologi</label>
+          <label class="option-label"><input type="radio" name="q50" value="B"> Bermain game</label>
+          <label class="option-label"><input type="radio" name="q50" value="C"> Menghabiskan waktu</label>
+          <label class="option-label"><input type="radio" name="q50" value="D"> Mencari hiburan</label>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button type="button" class="btn btn-primary" id="submitBtn" onclick="checkAnswers()">Lihat Nilai</button>
+        
+        <!-- Tombol WhatsApp -->
+        <a href="#" target="_blank" id="waBtn" class="btn btn-whatsapp">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          Kirim Hasil ke WhatsApp
+        </a>
+
+        <button type="button" class="btn btn-reset" id="resetBtn" onclick="resetQuiz()">Ulangi Latihan</button>
+      </div>
+    </form>
+
+    <!-- Hasil di Web -->
+    <div id="result-section">
+      <h3>Hasil Latihan Soal Prakarya / Informatika</h3>
+      <div class="grade-badge" id="gradeBadge">-</div>
+      <div class="score-display"><span id="scoreVal">0</span> / 100</div>
+      <p id="feedbackText">Terima kasih telah mengerjakan latihan soal.</p>
+    </div>
+  </div>
+
+  <script>
+    function checkAnswers() {
+      let score = 0;
+      const total = 50;
+      const form = document.getElementById('quiz');
+      const questionCards = document.querySelectorAll('.question-card');
+      
+      // Kunci Jawaban (Sesuai input user)
+      const kunci = {
+        q1:"C", q2:"B", q3:"B", q4:"B", q5:"C",
+        q6:"C", q7:"C", q8:"A", q9:"C", q10:"B",
+        q11:"B", q12:"A", q13:"B", q14:"A", q15:"A",
+        q16:"A", q17:"A", q18:"A", q19:"A", q20:"A",
+        q21:"A", q22:"A", q23:"B", q24:"A", q25:"B",
+        q26:"A", q27:"A", q28:"A", q29:"B", q30:"A",
+        q31:"A", q32:"A", q33:"A", q34:"A", q35:"A",
+        q36:"B", q37:"A", q38:"A", q39:"A", q40:"A",
+        q41:"A", q42:"A", q43:"A", q44:"C", q45:"A",
+        q46:"A", q47:"B", q48:"A", q49:"A", q50:"A"
+      };
+
+      questionCards.forEach((card, index) => {
+        const qNum = index + 1;
+        const inputs = card.querySelectorAll('input[type=radio]');
+        inputs.forEach(input => input.disabled = true);
+
+        const selected = card.querySelector('input[type=radio]:checked');
+        const labels = card.querySelectorAll('.option-label');
+        const correctInput = card.querySelector(`input[type=radio][value="${kunci['q'+qNum]}"]`);
+
+        if (selected) {
+          if (selected.value === kunci['q'+qNum]) {
+            score++;
+            selected.parentElement.classList.add('correct');
+          } else {
+            selected.parentElement.classList.add('wrong');
+            labels.forEach(lbl => {
+              if(lbl !== selected.parentElement) lbl.classList.add('dimmed');
+            });
+            if(correctInput) correctInput.parentElement.classList.add('correct');
+          }
+        } else {
+          labels.forEach(lbl => lbl.classList.add('dimmed'));
+          if(correctInput) {
+            correctInput.parentElement.classList.remove('dimmed');
+            correctInput.parentElement.classList.add('correct');
+          }
+        }
+      });
+
+      // Hitung Nilai (Skala 100)
+      const finalScore = Math.round((score * 100) / total);
+      document.getElementById('scoreVal').textContent = finalScore;
+      
+      // Tentukan Grade
+      let gradeText = '';
+      let gradeColor = '';
+      let feedback = '';
+
+      if (finalScore >= 90) {
+        gradeText = 'A (Sangat Baik)'; gradeColor = '#28a745'; feedback = 'Luar biasa! Kamu sangat menguasai TIK dan Prakarya.';
+      } else if (finalScore >= 80) {
+        gradeText = 'B (Baik)'; gradeColor = '#17a2b8'; feedback = 'Bagus! Terus asah kreativitas dan kemampuan teknologimu.';
+      } else if (finalScore >= 70) {
+        gradeText = 'C (Cukup)'; gradeColor = '#ffc107'; feedback = 'Cukup baik, tingkatkan lagi eksplorasi software dan kerajinan.';
+      } else {
+        gradeText = 'D (Kurang)'; gradeColor = '#dc3545'; feedback = 'Jangan menyerah, ayo sering berlatih menggunakan komputer.';
+      }
+
+      const gradeBadge = document.getElementById('gradeBadge');
+      gradeBadge.textContent = gradeText;
+      gradeBadge.style.backgroundColor = gradeColor;
+      document.getElementById('feedbackText').textContent = feedback;
+
+      // --- LOGIKA WHATSAPP ---
+      const namaSiswa = "Lambertus Adam Lowo Ngole";
+      const kelasSiswa = "VIII";
+      const tanggal = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+      let pesan = `*LAPORAN HASIL LATIHAN PRAKARYA / INFORMATIKA*%0A%0A`;
+      pesan += `👤 Nama Siswa: ${namaSiswa}%0A`;
+      pesan += `🏫 Kelas: ${kelasSiswa}%0A`;
+      pesan += `📅 Tanggal: ${tanggal}%0A`;
+      pesan += `--------------------------------%0A`;
+      pesan += `💻 *Nilai Akhir: ${finalScore}*%0A`;
+      pesan += `🏆 Predikat: ${gradeText}%0A`;
+      pesan += `--------------------------------%0A`;
+      pesan += `${feedback}%0A%0A`;
+      pesan += `Mohon diperiksa, terima kasih.`;
+
+      // Update Link Tombol WhatsApp
+      document.getElementById('waBtn').href = `https://wa.me/?text=${pesan}`;
+
+      // Tampilkan UI
+      document.getElementById('result-section').style.display = 'block';
+      document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+      
+      document.getElementById('submitBtn').style.display = 'none';
+      document.getElementById('waBtn').style.display = 'inline-flex';
+      document.getElementById('resetBtn').style.display = 'inline-block';
+    }
+
+    function resetQuiz() {
+      const form = document.getElementById('quiz');
+      form.reset();
+      
+      document.querySelectorAll('.option-label').forEach(el => {
+        el.classList.remove('correct', 'wrong', 'dimmed');
+      });
+      
+      document.querySelectorAll('input[type=radio]').forEach(el => el.disabled = false);
+
+      document.getElementById('result-section').style.display = 'none';
+      document.getElementById('submitBtn').style.display = 'inline-block';
+      document.getElementById('waBtn').style.display = 'none';
+      document.getElementById('resetBtn').style.display = 'none';
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
