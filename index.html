@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Latihan Soal Prakarya / TIK SMP Kelas VIII</title>
+  <title>Ulangan Informatika SMP Kelas 8</title>
   <style>
     :root {
       --primary-color: #1b5e20; /* Hijau Tua */
@@ -189,37 +189,6 @@
       border-radius: 50%;
     }
 
-    /* Feedback Styles */
-    .option-label.correct {
-      background-color: #d4edda !important;
-      border-color: var(--success-color) !important;
-      color: #155724;
-      font-weight: 500;
-    }
-    .option-label.correct::after {
-      content: ' ✓ Benar';
-      position: absolute;
-      right: 15px;
-      font-weight: bold;
-    }
-
-    .option-label.wrong {
-      background-color: #f8d7da !important;
-      border-color: var(--danger-color) !important;
-      color: #721c24;
-    }
-    .option-label.wrong::after {
-      content: ' ✗ Salah';
-      position: absolute;
-      right: 15px;
-      font-weight: bold;
-    }
-
-    .option-label.dimmed {
-      opacity: 0.4;
-      pointer-events: none;
-    }
-
     /* --- ACTION BUTTONS --- */
     .action-buttons {
       display: flex;
@@ -331,22 +300,22 @@
   <!-- HEADER -->
   <header class="header">
     <div class="logo-box">
-      <!-- Logo yang sama dengan file sebelumnya -->
+      <!-- Logo yang sama -->
       <img src="https://z-cdn-media.chatglm.cn/files/5e458b2f-a2f9-4785-9480-10bb908f065b.png?auth_key=1870716478-5459edfa4480475db8a989d53dbeccb8-0-c0ab1cb154f721dcadc8f6af10f41448" alt="Logo Sapta Dwija Artam">
     </div>
     <div class="title">
       <h2>SMPK Frateran Ndao-Ende</h2>
-      <p>Latihan Soal Prakarya & TIK</p>
+      <p>Ulangan Informatika & TIK</p>
     </div>
   </header>
 
   <div class="container">
     <!-- Info Siswa -->
     <div class="student-info">
-      <h1>Latihan Soal Prakarya / TIK Kelas VIII</h1>
+      <h1>Ulangan Informatika Kelas 8</h1>
       <p>Nama: <strong>Lambertus Adam Lowo Ngole</strong></p>
       <p>Kelas: <strong>VIII</strong></p>
-      <span class="sub-title">MATERI HARDWARE & SOFTWARE</span>
+      <span class="sub-title">ULANGAN HARIAN</span>
     </div>
 
     <form id="quiz">
@@ -373,10 +342,10 @@
 
     <!-- Hasil Section -->
     <div id="result-section">
-      <h2>Hasil Latihan Prakarya / TIK</h2>
+      <h2>Hasil Ulangan Informatika</h2>
       <div class="grade-badge" id="gradeBadge">MENUNGGU</div>
       <div class="score-display"><span id="scoreVal">0</span> / 100</div>
-      <p class="feedback-text" id="feedbackText">Silakan mengerjakan semua soal terlebih dahulu.</p>
+      <p class="feedback-text" id="feedbackText">Siap menjadi ahli teknologi?</p>
     </div>
   </div>
 
@@ -385,62 +354,44 @@
   </footer>
 
   <script>
-    // DATA SOAL (1-50)
-    // Array berisi objek soal, pilihan, dan kunci jawaban
+    // DATA SOAL (1-30)
+    // Kunci jawaban dikonversi dari lowercase (sumber) ke uppercase (standar sistem)
     const dataSoal = [
-      // Soal 1-10 (Manual)
-      { q: "1. Alat utama untuk mengoperasikan komputer disebut …", o: ["Software", "Brainware", "Hardware", "Internet"], k: "C" },
-      { q: "2. Perangkat keras komputer yang berfungsi menampilkan gambar adalah …", o: ["Keyboard", "Monitor", "CPU", "Printer"], k: "B" },
-      { q: "3. Contoh perangkat lunak sistem adalah …", o: ["Microsoft Word", "Windows", "CorelDraw", "Photoshop"], k: "B" },
-      { q: "4. Perangkat yang digunakan untuk memasukkan data ke komputer adalah …", o: ["Output device", "Input device", "Storage", "Processor"], k: "B" },
-      { q: "5. Contoh input device adalah …", o: ["Monitor", "Printer", "Keyboard", "Speaker"], k: "C" },
-      { q: "6. Alat untuk mencetak dokumen disebut …", o: ["Scanner", "Monitor", "Printer", "Proyektor"], k: "C" },
-      { q: "7. Program Microsoft Word digunakan untuk …", o: ["Mengolah angka", "Mengolah gambar", "Mengolah kata", "Mengolah video"], k: "C" },
-      { q: "8. Program pengolah angka adalah …", o: ["Microsoft Excel", "Microsoft Word", "Paint", "Notepad"], k: "A" },
-      { q: "9. Internet merupakan jaringan …", o: ["Lokal", "Nasional", "Global", "Sekolah"], k: "C" },
-      { q: "10. Contoh layanan internet adalah …", o: ["CPU", "Email", "Keyboard", "Flashdisk"], k: "B" },
+      // 1-10 Dasar Komputer
+      { q: "1. CPU adalah singkatan dari ....", o: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility"], k: "A" },
+      { q: "2. Perangkat keras komputer disebut ....", o: ["Software", "Hardware", "Brainware"], k: "B" },
+      { q: "3. Contoh perangkat input adalah ....", o: ["Monitor", "Keyboard", "Printer"], k: "B" },
+      { q: "4. Sistem operasi berfungsi untuk ....", o: ["Menghias layar", "Mengatur kerja komputer", "Menyimpan file saja"], k: "B" },
+      { q: "5. Contoh sistem operasi adalah ....", o: ["Microsoft Word", "Windows", "Excel"], k: "B" },
+      { q: "6. Perangkat untuk mencetak dokumen disebut ....", o: ["Scanner", "Printer", "Speaker"], k: "B" },
+      { q: "7. RAM berfungsi untuk ....", o: ["Penyimpanan sementara", "Penyimpanan permanen", "Mengolah suara"], k: "A" },
+      { q: "8. Perangkat lunak disebut juga ....", o: ["Hardware", "Brainware", "Software"], k: "C" },
+      { q: "9. Otak dari komputer adalah ....", o: ["Monitor", "CPU", "Keyboard"], k: "B" },
+      { q: "10. Contoh perangkat output adalah ....", o: ["Mouse", "Monitor", "Keyboard"], k: "B" },
       
-      // Soal 11-50 (Dari Script)
-      { q: "11. Alat penyimpan data portabel adalah …", o: ["Harddisk", "Flashdisk", "RAM", "CD"], k: "B" },
-      { q: "12. Fungsi utama CPU adalah …", o: ["Mengolah data", "Menyimpan data", "Menampilkan data", "Mencetak data"], k: "A" },
-      { q: "13. Mouse berfungsi untuk …", o: ["Mengetik", "Menunjuk perintah", "Mencetak", "Menyimpan"], k: "B" },
-      { q: "14. Ikon Save biasanya bergambar …", o: ["Disket", "Printer", "Folder", "Kaca"], k: "A" },
-      { q: "15. Program untuk mengolah presentasi adalah …", o: ["PowerPoint", "Word", "Excel", "Paint"], k: "A" },
-      { q: "16. Perangkat keras yang menghasilkan suara adalah …", o: ["Speaker", "Keyboard", "Mouse", "Scanner"], k: "A" },
-      { q: "17. Website diakses menggunakan …", o: ["Browser", "CPU", "Monitor", "RAM"], k: "A" },
-      { q: "18. Alamat website disebut …", o: ["URL", "WWW", "HTTP", "IP"], k: "A" },
-      { q: "19. Contoh mesin pencari adalah …", o: ["Google", "Email", "Browser", "Website"], k: "A" },
-      { q: "20. Etika menggunakan internet disebut …", o: ["Netiket", "Browsing", "Chatting", "Downloading"], k: "A" },
-      { q: "21. Software untuk menggambar adalah …", o: ["Paint", "Word", "Excel", "Access"], k: "A" },
-      { q: "22. Shortcut Ctrl + C berfungsi untuk …", o: ["Menyalin", "Menempel", "Menghapus", "Menyimpan"], k: "A" },
-      { q: "23. Shortcut Ctrl + V berfungsi untuk …", o: ["Menyalin", "Menempel", "Memotong", "Menyimpan"], k: "B" },
-      { q: "24. Folder digunakan untuk …", o: ["Menyimpan file", "Menghapus file", "Mencetak file", "Menyalin file"], k: "A" },
-      { q: "25. Virus komputer dapat menyebabkan …", o: ["Mempercepat kinerja", "Merusak data", "Memperindah tampilan", "Mengamankan data"], k: "B" },
-      { q: "26. Contoh media sosial adalah …", o: ["Facebook", "CPU", "Flashdisk", "Monitor"], k: "A" },
-      { q: "27. Program antivirus berfungsi untuk …", o: ["Menghapus virus", "Membuat virus", "Mempercepat internet", "Mengedit gambar"], k: "A" },
-      { q: "28. Komputer laptop bersifat …", o: ["Portabel (Mudah dibawa)", "Statis (Berat)", "Besar", "Tetap"], k: "A" },
-      { q: "29. Perangkat keras untuk memindai gambar disebut …", o: ["Printer", "Scanner", "Monitor", "Speaker"], k: "B" },
-      { q: "30. File dengan ekstensi .docx dibuat dengan …", o: ["Microsoft Word", "Paint", "Excel", "PowerPoint"], k: "A" },
-      { q: "31. Kegiatan membuat produk kerajinan disebut …", o: ["Produksi", "Konsumsi", "Distribusi", "Promosi"], k: "A" },
-      { q: "32. Bahan kerajinan yang berasal dari alam disebut …", o: ["Bahan alami", "Bahan sintetis", "Plastik", "Logam"], k: "A" },
-      { q: "33. Contoh bahan lunak alami adalah …", o: ["Tanah liat", "Besi", "Kaca", "Plastik"], k: "A" },
-      { q: "34. Alat pemotong dalam prakarya adalah …", o: ["Gunting", "Lem", "Cat", "Paku"], k: "A" },
-      { q: "35. Tahap awal pembuatan produk adalah …", o: ["Perencanaan (Desain)", "Produksi masal", "Promosi", "Evaluasi"], k: "A" },
-      { q: "36. Desain produk berfungsi untuk …", o: ["Memperindah", "Panduan pembuatan", "Promosi", "Penilaian"], k: "B" },
-      { q: "37. Produk kerajinan harus memiliki nilai …", o: ["Estetika (Keindahan)", "Rendah", "Murah", "Biasa"], k: "A" },
-      { q: "38. Contoh kerajinan dari limbah adalah …", o: ["Kerajinan plastik bekas", "Kerajinan emas", "Kerajinan batu murni", "Kerajinan kayu jati"], k: "A" },
-      { q: "39. Kegiatan promosi bertujuan untuk …", o: ["Mengenalkan/Menjual produk", "Membeli produk", "Menyimpan produk", "Membuang produk"], k: "A" },
-      { q: "40. Kewirausahaan menekankan pada sikap …", o: ["Kreatif & Mandiri", "Malas", "Pasif", "Takut"], k: "A" },
-      { q: "41. Keyboard termasuk perangkat …", o: ["Input", "Output", "Proses", "Penyimpanan"], k: "A" },
-      { q: "42. Monitor termasuk perangkat …", o: ["Output", "Input", "Proses", "Jaringan"], k: "A" },
-      { q: "43. Harddisk berfungsi sebagai …", o: ["Penyimpanan data", "Input data", "Output data", "Proses data"], k: "A" },
-      { q: "44. Perangkat lunak berbayar disebut …", o: ["Freeware", "Shareware", "Komersial (Proprietary)", "Open source"], k: "C" },
-      { q: "45. Contoh sistem operasi selain Windows adalah …", o: ["Linux", "Word", "Excel", "Paint"], k: "A" },
-      { q: "46. Internet yang aman memerlukan sikap …", o: ["Bertanggung jawab", "Sembarangan", "Bebas tanpa aturan", "Acuh"], k: "A" },
-      { q: "47. Data pribadi sebaiknya …", o: ["Dibagikan ke publik", "Dirahasiakan", "Dijual", "Dipublikasikan"], k: "B" },
-      { q: "48. Fungsi ikon Print adalah …", o: ["Mencetak dokumen", "Menyimpan", "Menghapus", "Menyalin"], k: "A" },
-      { q: "49. Contoh perangkat output adalah …", o: ["Printer", "Keyboard", "Mouse", "Scanner"], k: "A" },
-      { q: "50. Tujuan mempelajari TIK adalah …", o: ["Menambah wawasan teknologi", "Bermain game", "Menghabiskan waktu", "Mencari hiburan"], k: "A" }
+      // 11-20 Internet
+      { q: "11. Internet adalah ....", o: ["Jaringan komputer global", "Aplikasi mengetik", "Mesin pencetak"], k: "A" },
+      { q: "12. Aplikasi untuk menjelajah internet disebut ....", o: ["Browser", "Editor", "Scanner"], k: "A" },
+      { q: "13. Contoh browser adalah ....", o: ["Google Chrome", "Microsoft Word", "Paint"], k: "A" },
+      { q: "14. Email digunakan untuk ....", o: ["Bermain game", "Mengirim surat elektronik", "Mencetak dokumen"], k: "B" },
+      { q: "15. WWW adalah singkatan dari ....", o: ["World Wide Web", "World Work Web", "Web World Wide"], k: "A" },
+      { q: "16. Alamat website disebut ....", o: ["URL", "CPU", "RAM"], k: "A" },
+      { q: "17. Tindakan menjaga keamanan data disebut ....", o: ["Editing", "Hacking", "Cyber security"], k: "C" },
+      { q: "18. Media sosial digunakan untuk ....", o: ["Berkomunikasi online", "Menghapus file", "Memformat harddisk"], k: "A" },
+      { q: "19. Download berarti ....", o: ["Mengunggah file", "Menghapus file", "Mengambil file dari internet"], k: "C" },
+      { q: "20. Upload berarti ....", o: ["Mengirim file ke internet", "Menghapus file", "Membuka file"], k: "A" },
+      
+      // 21-30 Dasar Informatika
+      { q: "21. Algoritma adalah ....", o: ["Perangkat keras", "Langkah-langkah sistematis", "Program virus"], k: "B" },
+      { q: "22. Flowchart digunakan untuk ....", o: ["Menggambar wajah", "Menggambarkan alur program", "Mengetik surat"], k: "B" },
+      { q: "23. Bahasa pemrograman digunakan untuk ....", o: ["Membuat program", "Menyalakan komputer", "Mematikan printer"], k: "A" },
+      { q: "24. Contoh bahasa pemrograman adalah ....", o: ["Python", "Windows", "Google"], k: "A" },
+      { q: "25. Virus komputer dapat menyebabkan ....", o: ["Komputer rusak atau lambat", "Komputer semakin cepat", "Internet gratis"], k: "A" },
+      { q: "26. Brainware adalah ....", o: ["Perangkat keras", "Pengguna komputer", "Program aplikasi"], k: "B" },
+      { q: "27. File disimpan di dalam ....", o: ["Folder", "Keyboard", "Mouse"], k: "A" },
+      { q: "28. Shortcut Ctrl + C berfungsi untuk ....", o: ["Paste", "Copy", "Cut"], k: "B" },
+      { q: "29. Shortcut Ctrl + V berfungsi untuk ....", o: ["Paste", "Copy", "Cut"], k: "A" },
+      { q: "30. Data yang sudah diolah menjadi informasi disebut ....", o: ["Input", "Proses", "Informasi"], k: "C" }
     ];
 
     // Generator HTML
@@ -468,13 +419,13 @@
       container.appendChild(card);
     });
 
-    // KUNCI JAWABAN (Otomatis dari data di atas)
+    // KUNCI JAWABAN
     const kunci = {};
     dataSoal.forEach((item, index) => {
       kunci[`q${index + 1}`] = item.k;
     });
 
-    // FUNGSI VALIDASI & CEK
+    // FUNGSI VALIDASI & CEK (TANPA TAMPILAN JAWABAN)
     function checkAnswers() {
       let soalKosong = [];
 
@@ -510,32 +461,15 @@
       // Hitung Nilai
       let score = 0;
       const total = dataSoal.length;
-      const questionCards = document.querySelectorAll('.question-card');
       
-      questionCards.forEach((card, index) => {
-        const qNum = index + 1;
-        const inputs = card.querySelectorAll('input[type="radio"]');
-        inputs.forEach(input => input.disabled = true);
-
-        const selected = card.querySelector('input[type="radio"]:checked');
-        const labels = card.querySelectorAll('.option-label');
-        const correctVal = kunci['q'+qNum];
-        const correctInput = card.querySelector(`input[type="radio"][value="${correctVal}"]`);
-
-        if (selected) {
-          if (selected.value === correctVal) {
-            score++;
-            selected.parentElement.classList.add('correct');
-          } else {
-            selected.parentElement.classList.add('wrong');
-            labels.forEach(lbl => {
-              if(lbl !== selected.parentElement) lbl.classList.add('dimmed');
-            });
-            if(correctInput) correctInput.parentElement.classList.remove('dimmed');
-            if(correctInput) correctInput.parentElement.classList.add('correct');
-          }
+      for (let i = 1; i <= total; i++) {
+        const checked = document.querySelector(`input[name="q${i}"]:checked`);
+        if (checked && checked.value === kunci["q"+i]) {
+          score++;
         }
-      });
+        // Disable inputs
+        document.querySelectorAll(`input[name="q${i}"]`).forEach(el => el.disabled = true);
+      }
 
       const finalScore = Math.round((score * 100) / total);
       document.getElementById('scoreVal').textContent = finalScore;
@@ -545,13 +479,13 @@
       let feedback = '';
 
       if (finalScore >= 90) {
-        gradeText = 'A (SANGAT BAIK)'; gradeColor = '#28a745'; feedback = 'Luar biasa! Penguasaan materi TIK & Prakarya sangat baik.';
+        gradeText = 'A (SANGAT BAIK)'; gradeColor = '#28a745'; feedback = 'Luar biasa! Penguasaan teknologi Anda sangat baik.';
       } else if (finalScore >= 80) {
-        gradeText = 'B (BAIK)'; gradeColor = '#17a2b8'; feedback = 'Bagus! Pertahankan dan tingkatkan lagi.';
+        gradeText = 'B (BAIK)'; gradeColor = '#17a2b8'; feedback = 'Bagus! Kamu sangat melek teknologi.';
       } else if (finalScore >= 70) {
-        gradeText = 'C (CUKUP)'; gradeColor = '#ffc107'; feedback = 'Cukup baik, pelajari lagi bagian yang salah.';
+        gradeText = 'C (CUKUP)'; gradeColor = '#ffc107'; feedback = 'Cukup baik, pelajari lagi dasar komputer.';
       } else {
-        gradeText = 'D (KURANG)'; gradeColor = '#dc3545'; feedback = 'Jangan menyerah, coba pelajari lagi materinya.';
+        gradeText = 'D (KURANG)'; gradeColor = '#dc3545'; feedback = 'Jangan menyerah, ayo perbanyak latihan komputer.';
       }
 
       const gradeBadge = document.getElementById('gradeBadge');
@@ -564,7 +498,7 @@
       const kelasSiswa = "VIII";
       const tanggal = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-      let pesan = `*LAPORAN HASIL LATIHAN PRAKARYA/TIK*%0A%0A`;
+      let pesan = `*LAPORAN HASIL ULANGAN INFORMATIKA*%0A%0A`;
       pesan += `👤 Nama: ${namaSiswa}%0A`;
       pesan += `🏫 Kelas: ${kelasSiswa}%0A`;
       pesan += `📅 Tanggal: ${tanggal}%0A`;
@@ -589,10 +523,7 @@
       const form = document.getElementById('quiz');
       form.reset();
       
-      document.querySelectorAll('.option-label').forEach(el => {
-        el.classList.remove('correct', 'wrong', 'dimmed');
-      });
-      
+      // Enable inputs
       document.querySelectorAll('input[type="radio"]').forEach(el => el.disabled = false);
 
       document.getElementById('result-section').style.display = 'none';
